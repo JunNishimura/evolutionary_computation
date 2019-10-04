@@ -7,6 +7,7 @@ class Individual:
     ELITE = 1 
     MUTATE_PROB = 0.01
     N = 64 # 最大数の平方数
+    TOURNAMENT_SIZE = 30 # トーナメントサイズ
 
     def __init__(self):
         self.chrom = []
@@ -15,7 +16,8 @@ class Individual:
         self.fitness = 0.0
 
     def evaluate(self):
-        pass
+        fitness = 0.0
+        
 
     def crossover(self, p1, p2):
         pass

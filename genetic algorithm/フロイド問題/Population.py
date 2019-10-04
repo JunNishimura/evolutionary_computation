@@ -1,5 +1,7 @@
 # import Individual as ind
 from Individual import Individual
+import sys
+import numpy as np 
 
 class Population:
     def __init__(self):
@@ -11,6 +13,16 @@ class Population:
         self.evaluate()
 
     def alternate(self):
+
+        # ルーレット選択のための処理
+        self.trFit = [] # traversed fitness array
+        self.denom = 0.0
+
+        for i in range(Individual.POP_SIZE):
+            self.trFit.append( (self.ind[Individual.POP_SIZE-1].fitness - self.ind[i].fitness) \
+                                / self.ind[Individual.POP_SIZE-1].fitness - self.ind[0].fitness )
+            self.denom += self.trFit[i].fitness
+
         # エリート保存戦略
         for i in range(Individual.ELITE):
             for j in range(Individual.N):
@@ -42,8 +54,52 @@ class Population:
             self.ind[i].evaluate()
         self.quick_sort(0, Individual.POP_SIZE-1)
 
-    def select(self):
-        pass
+    # 順位に基づくランキング選択で親個体を１つ選択する
+    def select_rank_order(self):
+        denom = Individual.POP_SIZE * (Individual.POP_SIZE + 1) / 2
+        r = np.random.randint(denom) + 1 # random variable
+        for num in range(Individual.POP_SIZE, 0, -1):
+            if r <= num:
+                break
+            r -= num
+        return Individual.POP_SIZE - num
+
+    # 確率に基づくランキング選択で親個体を１つ選択する
+    def select_rank_prob(self):
+        denom = Individual.POP_SIZE * (Individual.POP_SIZE + 1) / 2
+        r = np.random.rand()
+        for rank in range(1, Individual.POP_SIZE+1):
+            prob = (Individual.POP_SIZE - (rank-1)) / denom
+            if r <= prob:
+                break
+            r -= prob
+        return rank - 1
+
+    # ルーレット選択で親個体を１つ選ぶ
+    def select_roulette(self):
+        r = np.random.rand()
+        for rank in range(1, Individual.POP_SIZE+1):
+            prob = self.trFit[rank-1] / self.denom
+            if r <= prob: 
+                break
+            r -= prob
+        return rank - 1
+
+    # トーナメント選択で親個体を１つ選ぶ
+    def select_tournament(self):
+        tmp = [0] * Individual.POP_SIZE
+        bestFit = (-1, sys.maxsize)
+        num = 0
+        while True:
+            r = np.random.randint(Individual.POP_SIZE)
+            if tmp[r] == 0:
+                tmp[r] = 1
+                if self.ind[r].fitness < bestFit[1]:
+                    bestFit = (r, self.ind[r].fitness)
+                num += 1
+                if num == Individual.TOURNAMENT_SIZE:
+                    break
+        return bestFit[0]
 
     def quick_sort(self, lb, ub):
         if lb < ub:
