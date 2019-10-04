@@ -21,7 +21,7 @@ class Population:
         for i in range(Individual.POP_SIZE):
             self.trFit.append( (self.ind[Individual.POP_SIZE-1].fitness - self.ind[i].fitness) \
                                 / self.ind[Individual.POP_SIZE-1].fitness - self.ind[0].fitness )
-            self.denom += self.trFit[i].fitness
+            self.denom += self.trFit[i]
 
         # エリート保存戦略
         for i in range(Individual.ELITE):
@@ -30,9 +30,9 @@ class Population:
 
         # 親を選択して交叉する
         for i in range(Individual.ELITE, Individual.POP_SIZE):
-            p1 = self.select()
-            p2 = self.select()
-            self.nextInd[i].crossover(self.ind[p1], self.ind[p2])
+            p1 = self.select_rank_order()
+            p2 = self.select_rank_order()
+            self.nextInd[i].crossover_onepoint(self.ind[p1], self.ind[p2])
 
         # 突然変異を起こす
         for i in range(Individual.ELITE, Individual.POP_SIZE):
