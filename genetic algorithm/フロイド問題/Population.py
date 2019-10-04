@@ -46,8 +46,20 @@ class Population:
         # 評価する
         self.evaluate()
 
+    # 結果を表示する
     def printResult(self):
-        pass
+        s_a = "集合A: "
+        for i in range(Individual.N):
+            if self.ind[0].chrom[i] == 1:
+                s_a += "√{} ".format(i+1)
+        s_b = "集合B: "
+        for i in range(Individual.N):
+            if self.ind[0].chrom[i] == 0:
+                s_b += "√{} ".format(i+1)
+        print(s_a)
+        print(s_b)
+        print("差: {}".format(self.ind[0].fitness))
+
 
     def evaluate(self):
         for i in range(Individual.POP_SIZE):
