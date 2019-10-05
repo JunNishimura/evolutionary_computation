@@ -15,7 +15,7 @@ graph = (n_rows, n_cols)
 # start: start generation to draw a graph
 # order: order to draw a graph
 def visualize_evolution(title, fitness, start): 
-    fig, axes = plt.subplots(nrows=graph[0], ncols=graph[1], figsize=(10, 8))
+    _, axes = plt.subplots(nrows=graph[0], ncols=graph[1], figsize=(10, 8))
     
     for i in range(graph[0]):
         for j in range(graph[1]):
@@ -25,12 +25,16 @@ def visualize_evolution(title, fitness, start):
             axes[i, j].set_xticks(np.arange(0, Individual.GEN_MAX+1, 100))
             axes[i, j].set_xlabel('世代')
             axes[i, j].set_ylabel('最良適応度') 
+            # axes[i, j].set_xlim(0, Individual.GEN_MAX+1)
+            # axes[i, j].set_ylim(0, fitness[i*2+j][start])
+            axes[i, j].text(Individual.GEN_MAX+1-100, fitness[i*2+j][-1]*2.25, "best fitness\n{0:.8f}".format(fitness[i*2+j][-1]))
             axes[i, j].grid(True)
     plt.tight_layout()
-    plt.show()
+    # plt.show()
+    plt.savefig('ouput.png')
 
 if __name__ == "__main__":
-    g_start = 100 # starting generation to draw a graph
+    g_start = 0 # starting generation to draw a graph
     fitness = []
     titles = ["順位に基づくランキング選択", "確率に基づくランキング選択", "ルーレット選択", "トーナメント選択"]
     for j in range(4):

@@ -93,7 +93,7 @@ class Population:
             prob = (Individual.POP_SIZE - (rank-1)) / denom
             if r <= prob:
                 break
-            r -= prob
+            r -= prob 
         return rank - 1
 
     # ルーレット選択で親個体を１つ選ぶ
