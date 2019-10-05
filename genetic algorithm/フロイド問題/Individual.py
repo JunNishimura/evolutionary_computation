@@ -15,6 +15,7 @@ class Individual:
             self.chrom.append(np.random.randint(100) % 2)
         self.fitness = 0.0
 
+    # 評価
     def evaluate(self):
         self.fitness = 0.0
         for i in range(Individual.N):
@@ -43,7 +44,7 @@ class Individual:
             self.chrom[i] = p2.chrom[i]
         for i in range(point2+1, Individual.N):
             self.chrom[i] = p1.chrom[i]
-        
+            
     # 一様交叉
     def crossover_uniform(self, p1, p2):
         for i in range(Individual.N):
@@ -57,6 +58,3 @@ class Individual:
         for i in range(Individual.N):
             if np.random.rand() < Individual.MUTATE_PROB:
                 self.chrom[i] = 1 - self.chrom[i]
-        
-    
-    

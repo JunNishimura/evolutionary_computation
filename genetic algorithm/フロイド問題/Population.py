@@ -2,6 +2,7 @@
 from Individual import Individual
 import sys
 import numpy as np 
+from decimal import Decimal
 
 class Population:
     def __init__(self):
@@ -12,8 +13,7 @@ class Population:
             self.nextInd.append(Individual())
         self.evaluate()
 
-    def alternate(self):
-
+    def alternate(self, switch):
         # ルーレット選択のための処理
         self.trFit = [] # traversed fitness array
         self.denom = 0.0
@@ -30,8 +30,18 @@ class Population:
 
         # 親を選択して交叉する
         for i in range(Individual.ELITE, Individual.POP_SIZE):
-            p1 = self.select_rank_order()
-            p2 = self.select_rank_order()
+            if switch == 0:
+                p1 = self.select_rank_order()
+                p2 = self.select_rank_order()
+            elif switch == 1:
+                p1 = self.select_rank_prob()
+                p2 = self.select_rank_prob()
+            elif switch == 2:
+                p1 = self.select_roulette()
+                p2 = self.select_roulette()
+            else:
+                p1 = self.select_tournament()
+                p2 = self.select_tournament()
             self.nextInd[i].crossover_onepoint(self.ind[p1], self.ind[p2])
 
         # 突然変異を起こす
@@ -58,8 +68,7 @@ class Population:
                 s_b += "√{} ".format(i+1)
         print(s_a)
         print(s_b)
-        print("差: {}".format(self.ind[0].fitness))
-
+        print("差: {0:.10f}\n".format(Decimal(self.ind[0].fitness)))
 
     def evaluate(self):
         for i in range(Individual.POP_SIZE):
@@ -113,6 +122,7 @@ class Population:
                     break
         return bestFit[0]
 
+    # クイックソート
     def quick_sort(self, lb, ub):
         if lb < ub:
             k = (lb + ub) // 2
