@@ -2,7 +2,7 @@ import numpy as np
 
 class Individual:
     # define class variable
-    GEN_MAX = 1000 # 世代交代数
+    GEN_MAX = 300 # 世代交代数
     POP_SIZE = 100 # 個体群のサイズ
     ELITE = 1 
     MUTATE_PROB = 0.01
