@@ -4,7 +4,6 @@ class Individual:
     POP_SIZE = 100 # 個体群数
     ELITE = 1 # エリート保存戦略
     MUTATION_PROB = 0.01 # 突然変異の確率
-    
     def __init__(self, num_cities):
         self.chrom = []
         self.order_list = [i for i in range(1, num_cities+1)]
