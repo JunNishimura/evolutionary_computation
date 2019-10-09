@@ -35,14 +35,29 @@ class Individual:
             self.fitness += self.cities[visit_order[i]-1].Hubeny_distance(self.cities[visit_order[i+1]-1])
         return round(self.fitness * 1000) # 単位はkmに変換して、小数点以下切り捨て
 
-    # 交叉
-    # とりあえず一点交叉
-    def crossover(self, p1, p2):
+    # 一点交叉
+    def onepoint_crossover(self, p1, p2):
         point = np.random.randint(len(self.cities)-1)
         for i in range(point+1):
             self.chrom[i] = p1.chrom[i]
         for i in range(point+1, len(self.cities)):
             self.chrom[i] = p2.chrom[i]
+
+    # 二点交叉
+    def twopoint_crossover(self, p1, p2):
+        point1 = np.random.randint(len(self.cities)-1) # 1~都市数-2 の中からランダムに選ぶ
+        point2 = (point1 + 1 + np.random.randint(len(self.cities)-2)) % (len(self.cities) - 1) # point1以外の数からランダムに選ぶ
+        if point1 > point2: # point1 < point2にする
+            tmp = point1
+            point1 = point2
+            point2 = tmp
+        for i in range(point1+1):
+            self.chrom[i] = p1[i].chrom[i]
+        for i in range(point1+1, point2+1):
+            self.chrom[i] = p2[i].chrom[i]
+        for i in range(point2+1, len(self.cities)):
+            self.chrom[i] = p1[i].chrom[i]
+
 
     # 突然変異
     def mutate(self):
