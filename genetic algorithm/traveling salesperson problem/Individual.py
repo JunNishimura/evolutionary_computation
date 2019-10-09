@@ -5,7 +5,6 @@ from City import City
 解の表現方法には順序表現(order representation)を用いる
 '''
 class Individual:
-
     GEN_MAX = 500 # 世代交代数
     POP_SIZE = 100 # 個体群数
     ELITE = 1 # エリート保存戦略
@@ -31,9 +30,9 @@ class Individual:
             order_list.remove(visit)
         
         # 適応度は訪れる都市間の距離の総和
-        for i in range(len(self.cities)-1): # 順番に次の歳までの距離を計算していく
+        for i in range(len(self.cities)-1): # 順番に次の都市までの距離を計算していく
             self.fitness += self.cities[visit_order[i]].Hubeny_distance(self.cities[visit_order[i+1]])
-        return self.fitness
+        return round(self.fitness * 1000) # 単位はkmに変換して、小数点以下切り捨て
 
     # 交叉
     # とりあえず一点交叉

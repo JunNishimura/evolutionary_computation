@@ -22,6 +22,4 @@ class City:
         pvr_curv = City.equatorial_r / w # 卯酉線曲率半径
 
         distance = np.sqrt( pow(diff_lat * mr_curv, 2) + pow(diff_lon * pvr_curv * np.cos(ave_lat), 2) ) #2都市間の距離
-        return distance
-        
-        
+        return round(distance) # 小数点は切り捨てる
