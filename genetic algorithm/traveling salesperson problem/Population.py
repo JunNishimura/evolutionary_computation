@@ -17,7 +17,7 @@ class Population:
         for i in range(Individual.POP_SIZE):
             p1 = self.select()
             p2 = self.select()
-            self.nextInd[i].crossover(p1, p2)
+            self.nextInd[i].crossover(self.ind[p1], self.ind[p2])
         
         for i in range(Individual.POP_SIZE):
             self.nextInd[i].mutate()
@@ -40,7 +40,7 @@ class Population:
 
         # 巡回順に都市を表示する
         for i in range(len(visit_order)):
-            print(i+1 + ': ' + self.cities[visit_order[i]-1].name)
+            print('{}: {}'.format(i+1, self.cities[visit_order[i]-1].name))
         print('総距離: {}(km)'.format(self.ind[0].fitness))
 
     # 親個体の選択

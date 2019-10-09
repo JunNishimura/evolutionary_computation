@@ -18,7 +18,8 @@ def main():
 
     # 最短距離を求める
     pop = Population(cities)
-    for i in range(1, Individual.POP_SIZE+1):
+    for i in range(1, Individual.GEN_MAX+1):
+        pop.alternate()
         print("第{}世代: 最短距離{}(km)".format(i, pop.ind[0].fitness)) # 各世代の最短距離を表示
     pop.printResult()
 
