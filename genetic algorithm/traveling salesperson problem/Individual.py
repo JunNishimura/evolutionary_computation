@@ -5,7 +5,7 @@ from City import City
 解の表現方法には順序表現(order representation)を用いる
 '''
 class Individual:
-    GEN_MAX = 1000 # 世代交代数
+    GEN_MAX = 200 # 世代交代数
     POP_SIZE = 100 # 個体群数
     ELITE = 1 # エリート保存戦略
     MUTATION_PROB = 0.01 # 突然変異の確率
@@ -52,12 +52,19 @@ class Individual:
             point1 = point2
             point2 = tmp
         for i in range(point1+1):
-            self.chrom[i] = p1[i].chrom[i]
+            self.chrom[i] = p1.chrom[i]
         for i in range(point1+1, point2+1):
-            self.chrom[i] = p2[i].chrom[i]
+            self.chrom[i] = p2.chrom[i]
         for i in range(point2+1, len(self.cities)):
-            self.chrom[i] = p1[i].chrom[i]
-
+            self.chrom[i] = p1.chrom[i]
+    
+    # 一様交叉
+    def uniform_crossover(self, p1, p2):
+        for i in range(len(self.cities)):
+            if np.random.randint(2) == 0:
+                self.chrom[i] = p1.chrom[i]
+            else:
+                self.chrom[i] = p2.chrom[i]
 
     # 突然変異
     def mutate(self):

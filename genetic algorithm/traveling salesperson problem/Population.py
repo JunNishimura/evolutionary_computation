@@ -12,12 +12,17 @@ class Population:
         self.evaluate()
 
     # 世代交代
-    def alternate(self):
+    def alternate(self, switch):
         # 親を選択して交叉する
         for i in range(Individual.POP_SIZE):
             p1 = self.select()
             p2 = self.select()
-            self.nextInd[i].crossover(self.ind[p1], self.ind[p2])
+            if switch == 0:
+                self.nextInd[i].onepoint_crossover(self.ind[p1], self.ind[p2])
+            elif switch == 1:
+                self.nextInd[i].twopoint_crossover(self.ind[p1], self.ind[p2])
+            else:
+                self.nextInd[i].uniform_crossover(self.ind[p1], self.ind[p2]) 
         
         for i in range(Individual.POP_SIZE):
             self.nextInd[i].mutate()
