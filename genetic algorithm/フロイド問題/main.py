@@ -14,9 +14,8 @@ graph = (n_rows, n_cols)
 # fitness: best fitness of each generation
 # start: start generation to draw a graph
 # order: order to draw a graph
-def visualize_evolution(title, fitness, titles, start): 
+def visualize_evolution(titles, fitness, start): 
     _, axes = plt.subplots(nrows=graph[0], ncols=graph[1], figsize=(10, 8))
-    
     for i in range(graph[0]):
         for j in range(graph[1]):
             x = np.arange(start, Individual.GEN_MAX)
@@ -49,7 +48,7 @@ def main():
         pop.printResult()
         fitness.append(tmp)
     # visualize evolution
-    visualize_evolution(titles, fitness, titles, g_start)
+    visualize_evolution(titles, fitness, g_start)
 
 if __name__ == "__main__":
     main()
